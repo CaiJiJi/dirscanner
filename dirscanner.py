@@ -9,7 +9,7 @@ import catalogs
 
 def scan(conn, dirs):
     iterator = 0
-    logfile = open("logfile.txt", "w")
+    logfile = open("logfile.txt", "a")
     for d in dirs:
         d = d.replace("\n", "")
         _url = "/cmsmadesimple/%s/" % (d)
@@ -23,7 +23,7 @@ def scan(conn, dirs):
         if (response.status == 200 or response.status == 302 or response.status == 304):
             _output = "HTTP %s %s \t\t\turl is %s" % (response.status, response.reason, _url)
             print _output
-            logfile.write(_output)
+            logfile.writelines(_output + "\n")
     logfile.close()
 
 
