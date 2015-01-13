@@ -11,13 +11,14 @@ import sys
 
 def scan(conn, dirs):
     iterator = 0
+    founded = []
     logfile = open("logfile.txt", "a")
     for d in dirs:
         d = d.replace("\n", "")
         _url = "/%s" % (d)
         _output = ""
 
-        print "checking %s" % (_url)
+        # print "checking %s" % (_url)
 
         conn.request("GET", _url)
         response = conn.getresponse()
@@ -28,6 +29,7 @@ def scan(conn, dirs):
 
         if (response.status == 200 or response.status == 302 or response.status == 304):
             _output = "HTTP %s %s \t\t\turl is %s" % (response.status, response.reason, _url)
+            founded.append(_output)
         if (response.status == 401):
             _output = "HTTP %s %s \t\t\t, Unauthorized; url is %s" % (response.status, response.reason, _url)
         if (response.status == 403):
@@ -38,7 +40,9 @@ def scan(conn, dirs):
             logfile.writelines(_output + "\n")
 
     logfile.close()
-
+    print "\n Founded dir(s):"
+    for f in founded:
+        print f
 
 
 def main():
